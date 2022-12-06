@@ -1,13 +1,6 @@
 #include <iostream>
 #include <fstream>
-#include <vector>
-#include <map>
-#include <set>
-#include <stack>
-#include "grammar.cpp"
-#include "situation.cpp"
-#include "condition.cpp"
-#include "analyser.cpp"
+#include "src/analyser.h"
 
 void read_from_file(std::vector<std::string>& lines, const std::string& file) {
     std::ifstream input(file);
