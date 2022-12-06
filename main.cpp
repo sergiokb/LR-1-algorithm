@@ -5,25 +5,32 @@
 #include <set>
 #include <stack>
 #include "grammar.cpp"
+#include "situation.cpp"
 #include "condition.cpp"
 #include "analyser.cpp"
 
-
-int main() {
-    std::ifstream input("grammar.txt");
+void read_from_file(std::vector<std::string>& lines, const std::string& file) {
+    std::ifstream input(file);
     if (!input.is_open()) std::cerr << "Can't open";
-    std::vector<std::string> taken;
     std::string line;
     while (std::getline(input, line)) {
-        taken.push_back(line);
+        lines.push_back(line);
     }
     input.close();
-    Grammar grammar(taken);
+}
+
+int main() {
+    std::vector<std::string> lines_of_rules;
+    read_from_file(lines_of_rules, "grammar.txt");
+
+    Grammar grammar(lines_of_rules);
     Analyser analyser(grammar);
-    std::ifstream inword("word.txt");
-    std::string word;
-    while (inword >> word) {
-        std::cout << analyser.parse(word) << std::endl;
+
+    std::vector<std::string> words;
+    read_from_file(words, "words.txt");
+
+    for(std::string& word: words) {
+        std::cout << analyser.parse(word) << '\n';
     }
     return 0;
 }
