@@ -41,9 +41,6 @@ Analyser::Analyser(Grammar &gr) : gr(gr) {
     std::set<char> possible_words;
     for (int i = 0; i < possible_conditions.size(); ++i) {
         for (situation sit: possible_conditions[i].admissible) {
-            if(i == 3) {
-                i = 3;
-            }
             if (sit.is_final()) {
                 action_table[i][gr.term_num(sit.word)] = ACCESS;
                 continue;

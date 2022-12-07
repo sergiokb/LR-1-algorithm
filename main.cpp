@@ -13,17 +13,17 @@ void read_from_file(std::vector<std::string>& lines, const std::string& file) {
 }
 
 int main() {
-    std::vector<std::string> lines_of_rules;
-    read_from_file(lines_of_rules, "grammar.txt");
+    std::vector<std::string> description_of_rules;
+    read_from_file(description_of_rules, "grammar.txt");
 
-    Grammar grammar(lines_of_rules);
+    Grammar grammar(description_of_rules);
     Analyser analyser(grammar);
 
     std::vector<std::string> words;
     read_from_file(words, "words.txt");
 
     for(std::string& word: words) {
-        std::cout << analyser.parse(word) << '\n';
+        std::cout << word << " - "<< analyser.parse(word) << '\n';
     }
     return 0;
 }

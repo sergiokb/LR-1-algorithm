@@ -1,10 +1,12 @@
 #include "grammar.h"
 
-Grammar::Grammar(std::vector<std::string> &input) {
-    input[0].insert(0, "@ -> ");   // S' -> S
+Grammar::Grammar(std::vector<std::string> input) {
+    input[0].erase(0, strlen("Starting with: "));
+    input[0].insert(0, "0. @ -> ");   // S' -> S
     for (std::string &line : input) {
+        line.erase(0, line.find('.') + 2);
         char left = line[0];
-        std::string right = line.substr(5, line.size() - 5);
+        line.erase(0, strlen("A -> "));
         if (index.find(left) == index.end()) {
             index[left] = rules.size();
             unterminal += left;
@@ -12,7 +14,7 @@ Grammar::Grammar(std::vector<std::string> &input) {
         }
         rule_num[{index[left], rules[index[left]].size()}] = rule_position.size();
         rule_position.emplace_back(index[left], rules[index[left]].size());
-        rules[index[left]].push_back(right);
+        rules[index[left]].push_back(line);
     }
     alphabet = unterminal;
     for(int i = 0; i < rules.size(); ++i) {
