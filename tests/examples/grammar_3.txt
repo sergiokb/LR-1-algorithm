@@ -1,0 +1,4 @@
+Starting with: S
+1. S -> CC
+2. C -> cC
+3. C -> d
