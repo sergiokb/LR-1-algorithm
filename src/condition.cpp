@@ -20,7 +20,7 @@ Condition::Condition(Grammar &gr, Condition &prev_cond, char x) : gr(gr) {
     predict(unpredicted);
 }
 
-void Condition::get_possible_words(std::set<char>& possible_words, situation& sit) {
+void Condition::find_possible_words(std::set<char>& possible_words, situation& sit) {
     std::string right = gr.rules[sit.left][sit.right_index];
     char f = (sit.dot_position + 1 < right.size() ? right[sit.dot_position + 1] : sit.word);
     std::vector<bool> checked(gr.unterminal.size(), false);
@@ -37,7 +37,7 @@ void Condition::predict(std::set<situation> &unpredicted) {
         std::string right = gr.rules[curr.left][curr.right_index];
         char symbol = right[curr.dot_position];
         if (gr.is_terminal(symbol)) continue;
-        get_possible_words(possible_words, curr);
+        find_possible_words(possible_words, curr);
         for (int j = 0; j < gr.rules[gr.index[symbol]].size(); ++j) {
             for (char x: possible_words) {
                 situation new_sit = {gr.index[symbol], j, 0, x};

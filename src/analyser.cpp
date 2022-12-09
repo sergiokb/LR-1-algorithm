@@ -15,6 +15,12 @@ int contains(std::vector<Condition> &set_of_conditions, Condition &cond) {
 }
 
 Analyser::Analyser(Grammar &gr) : gr(gr) {
+    build_conditions();
+    set_actions();
+    if(!grammar_is_LR1) std::cerr << "Not LR(1) grammar!!!";
+}
+
+void Analyser::build_conditions() {
     std::deque<Condition> unpushed_conditions;
     unpushed_conditions.emplace_back(gr);
     while (!unpushed_conditions.empty()) {
@@ -36,8 +42,11 @@ Analyser::Analyser(Grammar &gr) : gr(gr) {
             unpushed_conditions.push_back(new_made);
         }
     }
+}
+
+void Analyser::set_actions() {
     action_table = std::vector<std::vector<int>>(possible_conditions.size(),
-             std::vector<int>(gr.terminal.size(), ERROR));
+            std::vector<int>(gr.terminal.size(), ERROR));
     std::set<char> possible_words;
     for (int i = 0; i < possible_conditions.size(); ++i) {
         for (situation sit: possible_conditions[i].admissible) {
@@ -47,7 +56,8 @@ Analyser::Analyser(Grammar &gr) : gr(gr) {
             }
             if (sit.dot_position == sit.rightside_length(gr)) {
                 if(action_table[i][gr.term_num(sit.word)] != ERROR) {
-                    std::cerr << "Not LR(1) grammar!!!";
+                    grammar_is_LR1 = false;
+                    return;
                 }
                 action_table[i][gr.term_num(sit.word)] = REDUCE;
                 reduce_rule[{i, gr.index[sit.word]}] = {sit.left, sit.right_index};
@@ -60,7 +70,8 @@ Analyser::Analyser(Grammar &gr) : gr(gr) {
                     if(GOTO[i][gr.index[x]] == -1) continue;
                     if(action_table[i][gr.term_num(x)] != ERROR
                     && action_table[i][gr.term_num(x)] != SHIFT) {
-                        std::cerr << "Not LR(1) grammar!!!";
+                        grammar_is_LR1 = false;
+                        return;
                     }
                     else action_table[i][gr.term_num(x)] = SHIFT;
                 }
@@ -69,7 +80,7 @@ Analyser::Analyser(Grammar &gr) : gr(gr) {
     }
 }
 
-std::string Analyser::parse(std::string &word) {
+std::string Analyser::parse(std::string word) {
     word += '$';
     std::stack<int> active_prefix;
     std::string result;
@@ -95,6 +106,6 @@ std::string Analyser::parse(std::string &word) {
         }
         if(action == ERROR) return "NO";
     }
-    return "NOPE";
+    return "NO";
 }
 

@@ -1,29 +1,14 @@
-#include <iostream>
-#include <fstream>
-#include "src/analyser.h"
-
-void read_from_file(std::vector<std::string>& lines, const std::string& file) {
-    std::ifstream input(file);
-    if (!input.is_open()) std::cerr << "Can't open";
-    std::string line;
-    while (std::getline(input, line)) {
-        lines.push_back(line);
-    }
-    input.close();
-}
+#include "src/solution.h"
 
 int main() {
-    std::vector<std::string> description_of_rules;
-    read_from_file(description_of_rules, "grammar.txt");
-
-    Grammar grammar(description_of_rules);
-    Analyser analyser(grammar);
-
     std::vector<std::string> words;
-    read_from_file(words, "words.txt");
-
-    for(std::string& word: words) {
-        std::cout << word << " - "<< analyser.parse(word) << '\n';
+    std::vector<std::string> ans;
+    solution("tests/examples/grammar_0.txt",
+             "tests/examples/words_0.txt", words, ans);
+//    solution("grammar.txt",
+//         "words.txt", words, ans);
+    for(size_t i = 0; i < ans.size(); ++i) {
+        std::cout << words[i] << " - " << ans[i] << '\n';
     }
     return 0;
 }

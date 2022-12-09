@@ -1,0 +1,5 @@
+Starting with: S
+1. S -> aTS
+2. S -> $
+3. T -> bT
+4. T -> a

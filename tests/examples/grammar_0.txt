@@ -1,0 +1,5 @@
+Starting with: E
+1. E -> E+T
+2. E -> T
+3. T -> n
+4. T -> (E)

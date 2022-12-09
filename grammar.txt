@@ -1,3 +1,5 @@
 Starting with: S
 1. S -> SaSb
 2. S -> $
+3. S -> SD
+4. D -> d
