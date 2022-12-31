@@ -1,4 +1,3 @@
 Starting with: S
-1. S -> aT
+1. S -> aTT
 2. T -> $
-3. T -> b

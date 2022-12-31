@@ -28,7 +28,9 @@ void Condition::find_possible_words(std::set<char>& possible_words, situation& s
         ++j;
         f = (j < right.size() ? right[j] : sit.word);
         std::vector<bool> checked(gr.unterminal.size(), false);
-        possible_words = gr.FIRST(f, checked);
+        std::set<char> temp = gr.FIRST(f, checked);
+        if(j < right.size()) temp.erase('$');
+        possible_words.insert(temp.begin(), temp.end());
     } while (j < right.size() && gr.eps_gen[gr.index[f]]);
 }
 
