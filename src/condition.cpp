@@ -22,9 +22,14 @@ Condition::Condition(Grammar &gr, Condition &prev_cond, char x) : gr(gr) {
 
 void Condition::find_possible_words(std::set<char>& possible_words, situation& sit) {
     std::string right = gr.rules[sit.left][sit.right_index];
-    char f = (sit.dot_position + 1 < right.size() ? right[sit.dot_position + 1] : sit.word);
-    std::vector<bool> checked(gr.unterminal.size(), false);
-    possible_words = gr.FIRST(f, checked);
+    char f;
+    int j = sit.dot_position;
+    do {
+        ++j;
+        f = (j < right.size() ? right[j] : sit.word);
+        std::vector<bool> checked(gr.unterminal.size(), false);
+        possible_words = gr.FIRST(f, checked);
+    } while (j < right.size() && gr.eps_gen[gr.index[f]]);
 }
 
 void Condition::predict(std::set<situation> &unpredicted) {

@@ -18,6 +18,8 @@ public:
     Condition(Grammar &gr);
 
     Condition(Grammar &gr, Condition &prev_cond, char x); // GOTO(previous condition) by x
+
+    friend std::set<char> testing_first(const std::string& grammar_file, situation sit);
 };
 
 

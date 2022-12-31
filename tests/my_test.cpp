@@ -37,6 +37,12 @@ TEST(MyTests, Grammar_3) {
     EXPECT_EQ(ans[1], "NO");
 }
 
+TEST(TestingFIRST, SpecialCase) {
+    std::set<char> firsts = testing_first("tests/first_testing/grammar.txt", {1, 0, 1, 'b'});
+    ASSERT_EQ(firsts.size(), 1);
+    EXPECT_EQ(*firsts.begin(), 'b');
+}
+
 
 
 

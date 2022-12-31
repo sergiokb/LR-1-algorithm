@@ -17,10 +17,14 @@ Grammar::Grammar(std::vector<std::string> input) {
         rules[index[left]].push_back(line);
     }
     alphabet = unterminal;
+    eps_gen.assign(unterminal.size(), false);
     for(int i = 0; i < rules.size(); ++i) {
         for(const std::string& right: rules[i]) {
             for (char x: right) {
-                if(x == '$') continue;
+                if(x == '$') {
+                    eps_gen[i] = true;
+                    continue;
+                }
                 if (index.find(x) == index.end()) {
                     index[x] = alphabet.size();
                     alphabet += x;
@@ -50,8 +54,12 @@ std::set<char> Grammar::FIRST(char x, std::vector<bool> &checked) {
     if (checked[index[x]]) return ans;
     checked[index[x]] = true;
     for (const std::string &right: rules[index[x]]) {
-        std::set<char> gotten = FIRST(right[0], checked);
-        ans.insert(gotten.begin(), gotten.end());
+        int j = -1;
+        do {
+            ++j;
+            std::set<char> gotten = FIRST(right[j], checked);
+            ans.insert(gotten.begin(), gotten.end());
+        } while (eps_gen[index[right[j]]]);
     }
     return ans;
 }

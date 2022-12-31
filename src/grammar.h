@@ -13,6 +13,7 @@ public:
     // for each rule [A -> alpha] we have rules[index[A]] = alpha
     std::vector<std::pair<int, int>> rule_position;  // coordinates of each rule in rules vector
     std::map<std::pair<int, int>, int> rule_num;  // rule number in the input file
+    std::vector<bool> eps_gen; // epsilon generative symbols;
 
     Grammar(std::vector<std::string> input);
 

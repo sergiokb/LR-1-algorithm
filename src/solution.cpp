@@ -26,3 +26,13 @@ void solution(const std::string& grammar_file, const std::string& words_file,
         ans.push_back(analyser.parse(word));
     }
 }
+
+std::set<char> testing_first(const std::string& grammar_file, situation sit) {
+    std::vector<std::string> description_of_rules;
+    read_from_file(description_of_rules, grammar_file);
+    Grammar grammar(description_of_rules);
+    Condition temp(grammar);
+    std::set<char> possible_words;
+    temp.find_possible_words(possible_words, sit);
+    return possible_words;
+}
